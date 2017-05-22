@@ -55,7 +55,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment1 extends Fragment {
 
-    String _intputDestName;
+    String _intputDestName;/////
     SupportMapFragment mapFragment;
     GoogleMap map;
     private CompassView mCompassView;
