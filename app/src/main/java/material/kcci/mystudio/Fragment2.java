@@ -29,10 +29,8 @@ import java.util.HashMap;
 
 public class Fragment2 extends Fragment
 {
-
     RecyclerView _recyclerView;
     private ArrayList<Recent> _recents;
-
 
     public Fragment2()
     {
@@ -43,20 +41,10 @@ public class Fragment2 extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.d("TAG", "onCreateView");
         ViewGroup root_page = (ViewGroup) inflater.inflate(R.layout.fragment_fragment2, container, false);
         _recyclerView = (RecyclerView) root_page.findViewById(R.id.recyclerView);
 
-//ifregion LoadData 원본
-//        Log.d("TAG","onCreateView_recyclerView");
-//        ArrayList<Recent> _recents   = loadData(); //Recent 타입의 ArrayList에 _recent 객체에대한 정보 가져오기 (loadData함수)
-//        Log.d("TAG","onCreateView_loadData");
-//        RecentAdapter myAdapter = new RecentAdapter(_recents); //위에서 저장된 _recents  객체를 어댑터를 통해 전달
-//endregion
         getData("http://118.91.118.27/CarCat/select.php");
-
-        //RecentAdapter myAdapter = new RecentAdapter(_recents);
-        //_recyclerView.setAdapter(myAdapter); //화면에 출력할 _recyclerView에다가 위에서 생성한 데이터가 저장된 어댑터 전달
 
         //use a linear Layout Manaager -> (여긴 설정하기 나름)레이아웃 매니저 이용하여 객체 연결
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getActivity());
@@ -101,7 +89,6 @@ public class Fragment2 extends Fragment
     RecentAdapter myAdapter;
 
     //endregion
-
 
     //region getData
     public void getData(String url)

@@ -3,7 +3,6 @@ package material.kcci.mystudio;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 /**
@@ -20,7 +19,6 @@ public class CompassView extends View {
 
         this.mCompass = ctx.getResources().getDrawable(R.drawable.arrow_n);
     }
-
 
     protected void onDraw(Canvas canvas) {
         canvas.save();
