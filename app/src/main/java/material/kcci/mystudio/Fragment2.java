@@ -56,33 +56,12 @@ public class Fragment2 extends Fragment
         return root_page;
     }
 
-    private ArrayList<Recent> loadData()
-    {
-        ArrayList<Recent> _recents = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            Recent recent = new Recent();
-            recent.set_imageID(R.drawable.jpark);
-            recent.set_title("주소 :" + (i + 1));
-            recent.set_info("정보 : " + i);
-
-            //꼭 데이터 넣어라 시발년아
-            _recents.add(recent);
-        }
-
-        //위의 데이터를 쳐넣은 ArrayList 리턴
-        return _recents;
-
-
-    }
-
-
     //region Variable
 
     String myJSON;
 
     private static final String TAG_RESULTS = "result";
+    private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_ADD = "address";
     JSONArray _jsonArray = null;
@@ -142,7 +121,6 @@ public class Fragment2 extends Fragment
     //region showList
     protected void showList()
     {
-        Log.d("showList_TAG","in showList");
         ArrayList<Recent> _recents = new ArrayList<>();
         try
         {
@@ -155,24 +133,26 @@ public class Fragment2 extends Fragment
 
                 JSONObject c = _jsonArray.getJSONObject(i);
 
-
+                String id = c.getString(TAG_ID);
                 String name = c.getString(TAG_NAME);
                 String address = c.getString(TAG_ADD);
 
                 if(i%2==0)
                 {
                     recent.set_imageID(R.drawable.gray);
+                    recent.set_Id(id);
                     recent.set_title(address);
                     recent.set_info(name);
                 }
                 else
                 {
                     recent.set_imageID(R.drawable.jpark);
+                    recent.set_Id(id);
                     recent.set_title(address);
                     recent.set_info(name);
                 }
-                _recents.add(recent);
 
+                _recents.add(recent);
             }
 
             RecentAdapter reA = new RecentAdapter(_recents);
@@ -187,11 +167,8 @@ public class Fragment2 extends Fragment
             e.printStackTrace();
         }
 
-}
+    }
     //endregion
 
 }
-
-
-
 

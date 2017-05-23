@@ -16,6 +16,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     public ItemTouchHelperCallback(ItemTouchHelperListener listener) {
         this._listener = listener;
+        Log.d("ItemTouch",listener.toString());
     }
 
     @Override
@@ -40,6 +41,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         Log.i(TAG, "onSwiped");
         _listener.onItemRemove(viewHolder.getAdapterPosition());
+
 
     }
 }

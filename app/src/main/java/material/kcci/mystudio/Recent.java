@@ -1,11 +1,27 @@
 package material.kcci.mystudio;
 
+import android.util.Log;
+
 /**
  * Created by db2 on 2017-05-17.
  */
 
 public class Recent
 {
+    //region id
+
+    protected  String _id;
+
+        public String get_Id() {
+            return _id;
+        }
+
+        public void set_Id(String id) {
+            Log.d("_recent_TAG",id);
+            _id = id;
+        }
+        //endregion
+
     private int _imageID;
 
     public int get_imageID()

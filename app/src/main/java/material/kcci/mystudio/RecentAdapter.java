@@ -41,6 +41,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         Log.d("TAG","Items");
         //Recent에 있는 데이터들을 해당 View에 갖다 붙여버린다.
         holder.imageID.setBackgroundResource(recent.get_imageID());
+        holder.dataId.setText(recent.get_Id());
         holder.titleText.setText(recent.get_title());
         holder.infoText.setText(recent.get_info());
     }
@@ -70,6 +71,8 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
     //아이템 삭제
     @Override
     public void onItemRemove(int position) {
+        Integer test=  (Integer)  position;
+        Log.d("position_TAG", test.toString());
         _recent.remove(position);
         notifyItemRemoved(position);
 
@@ -84,6 +87,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         TextView infoText;
         TextView titleText;
         ImageView imageID;
+        TextView dataId;
 
         public ViewHolder(View itemView)
         {
@@ -91,6 +95,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
             //public RecyclerView(Context context) {this(context, null);}
             super(itemView);
             infoText = (TextView) itemView.findViewById(R.id.textInfo);
+            dataId = (TextView) itemView.findViewById(R.id.dataID);
             titleText = (TextView) itemView.findViewById(R.id.textTitle);
             imageID = (ImageView) itemView.findViewById(R.id.imageID);
         }

@@ -132,13 +132,6 @@ public class Fragment1 extends Fragment {
                 if (list != null) {
                     if (list.size() == 0) {
                         Toast.makeText(getActivity(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
-                    } else {
-//                        // 해당되는 주소로 인텐트 날리기
-//                        Address addr = list.get(0);
-//                        Log.d("Address_TAG",addr.toString());
-//                        double lat = addr.getLatitude();
-//                        double lon = addr.getLongitude();
-//                        showMyLocationMarker(lat,lon); //double 형으로 매개변수 넘김
                     }
                 }
                 requestMyLocation();
@@ -151,8 +144,8 @@ public class Fragment1 extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-                map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(37.555744, 126.970431)));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng,15));
+                LatLng initialization = new LatLng(37.555744, 126.970431);
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(initialization, 11));
                 map.setMyLocationEnabled(true);
             }
         });
@@ -302,7 +295,7 @@ public class Fragment1 extends Fragment {
                     {
                         @Override
                         public void onLocationChanged(Location location) {
-//                            showCurrentLocation(location);
+                            showCurrentLocation(location);
                         }
 
                         @Override
@@ -328,7 +321,7 @@ public class Fragment1 extends Fragment {
                     {
                         @Override
                         public void onLocationChanged(Location location) {
-//                            showCurrentLocation(location);
+                            showCurrentLocation(location);
                         }
 
                         @Override
@@ -353,10 +346,10 @@ public class Fragment1 extends Fragment {
     }
 
     private void showCurrentLocation(Location location)
-    {
-        LatLng curPoint = new LatLng(location.getLatitude(), location.getLongitude());
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
-    }
+        {
+            LatLng curPoint = new LatLng(location.getLatitude(), location.getLongitude());
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(curPoint, 15));
+        }
 
 
     private void showMyLocationMarker(double lat, double lon)
@@ -367,7 +360,8 @@ public class Fragment1 extends Fragment {
                 + findDest.latitude
                 + "Lng:" + findDest.longitude).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 .title("목적지"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(findDest));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(findDest,15));
+        map.animateCamera(CameraUpdateFactory.zoomTo(15), 10000, null);
     }
 
     @Override
@@ -422,6 +416,7 @@ public class Fragment1 extends Fragment {
         searchName.setText(destination);
         try {
             list = geocoder.getFromLocationName(destination,10);
+            Log.d("destination_TAT",list.toString());
         } catch (IOException e) {
             e.printStackTrace();
             Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
