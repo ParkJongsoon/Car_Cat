@@ -114,8 +114,6 @@ public class Fragment2 extends Fragment
         GetDataJSON g = new GetDataJSON();
         g.execute(url);
     }
-
-
     //endregion
 
     //region showList

@@ -68,15 +68,20 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
     }
 
+
     //아이템 삭제
     @Override
-    public void onItemRemove(int position) {
-        Integer test=  (Integer)  position;
-        Log.d("position_TAG", test.toString());
+    public void onItemRemove(int position)
+    {
+        Recent recent = _recent.get(position);
+        String delIdnum = recent.get_Id();
+        ConnectPHP conPHP = new ConnectPHP();
+        conPHP.deleteToDatabase(delIdnum);
         _recent.remove(position);
         notifyItemRemoved(position);
-
     }
+
+
 
     //각 데이터 아이템에 대하여 참조를 제공한다?
     //복잡한 데이터 항목은 항목 당 하나 이상의 보기가 필요할 수 있다.
