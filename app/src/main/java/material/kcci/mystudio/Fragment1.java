@@ -3,6 +3,7 @@ package material.kcci.mystudio;
 /**
  * Created by db2 on 2017-05-17.
  */
+//너무 너무 무서워
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
