@@ -1,5 +1,6 @@
 package material.kcci.mystudio;
 
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -108,7 +109,4 @@ public class Map
         _map.moveCamera(CameraUpdateFactory.newLatLngZoom(findDest,15));
         _map.animateCamera(CameraUpdateFactory.zoomTo(15), 10000, null);
     }
-
-
-
 }

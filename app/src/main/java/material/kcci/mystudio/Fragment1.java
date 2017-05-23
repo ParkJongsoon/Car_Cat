@@ -5,6 +5,7 @@ package material.kcci.mystudio;
  */
 //너무 너무 무서워
 
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -185,7 +186,7 @@ public class Fragment1 extends Fragment {
                     Log.d("Address_TAG",addr.toString());
                     double lat = addr.getLatitude();
                     double lon = addr.getLongitude();
-                    mymap.showMyLocationMarker(lat,lon); //double 형으로 매개변수 넘김
+                    mymap.showMyLocationMarker(lat,lon);
                 }
             }
         }
