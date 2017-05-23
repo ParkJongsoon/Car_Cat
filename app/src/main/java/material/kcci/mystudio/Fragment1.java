@@ -106,8 +106,6 @@ public class Fragment1 extends Fragment {
             {
                 String name = searchName.getText().toString();
                 String address = searchAddr.getText().toString();
-                ConnectPHP conPhp = new ConnectPHP();
-                conPhp.insertToDatabase(name,address);
 
                 list = null;
                 list=checkaddrss();
@@ -116,6 +114,9 @@ public class Fragment1 extends Fragment {
                         Toast.makeText(getActivity(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                ConnectPHP conPhp = new ConnectPHP();
+                conPhp.insertToDatabase(name,address);
                 mymap.requestMyLocation();
             }
         });
