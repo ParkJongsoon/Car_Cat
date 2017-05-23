@@ -17,6 +17,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,12 +44,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment1 extends Fragment {
 
-    String _intputDestName;/////
+    String _intputDestName;
     SupportMapFragment mapFragment;
     GoogleMap map;
-    private CompassView mCompassView;
-    private SensorManager mSensorManager;
-    private boolean mCompassEnabled;
     private ViewGroup root_page;
     private Geocoder geocoder;
     private TextView searchName;
@@ -59,6 +57,8 @@ public class Fragment1 extends Fragment {
     int RESULT_SPEECH = 1;
     Intent i;
     Map mymap;
+    double lat;
+    double lon;
 
     public Fragment1()
     {
@@ -67,7 +67,6 @@ public class Fragment1 extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
         root_page = (ViewGroup) inflater.inflate(R.layout.fragment_fragment1,container,false);
         geocoder = new Geocoder(getActivity());
         searchName = (TextView) root_page.findViewById(R.id.textView3);
@@ -138,21 +137,6 @@ public class Fragment1 extends Fragment {
             e.printStackTrace();
         }
 
-
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        boolean sideBottom = true;
-        mCompassView = new CompassView(getActivity());
-        mCompassView.setVisibility(View.VISIBLE);
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        params.addRule(sideBottom ? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.ALIGN_PARENT_TOP);
-
-        ((ViewGroup)mapFragment.getView()).addView(mCompassView, params);
-        mCompassEnabled = true;
-
         return root_page;
     }
 
@@ -163,17 +147,16 @@ public class Fragment1 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && (requestCode == RESULT_SPEECH))
         {
-            ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             //data.getString() 호출로 음성 인식 결과를 Arraylist로 받음
+            ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-            String result_sst = sstResult.get(0);
             //결과중 음성과 가장 비슷한 단어부터 0번째 문자열에 저장
+            String result_sst = sstResult.get(0);
 
             searchName.setText(result_sst);
 
             list = null;
             list = checkaddrss();
-
             if (list != null)
             {
                 if (list.size() == 0)
@@ -185,8 +168,8 @@ public class Fragment1 extends Fragment {
                     String findAddr = addr.getAddressLine(0).toString();
                     searchAddr.setText(findAddr);
                     Log.d("Address_TAG",addr.toString());
-                    double lat = addr.getLatitude();
-                    double lon = addr.getLongitude();
+                    lat = addr.getLatitude();
+                    lon = addr.getLongitude();
                     mymap.showMyLocationMarker(lat,lon);
                 }
             }
@@ -209,44 +192,14 @@ public class Fragment1 extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-
-        if (map != null) {
-            map.setMyLocationEnabled(false);
-        }
-
-        if(mCompassEnabled) {
-            mSensorManager.unregisterListener(mListener);
-        }
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getActivity(),"Bye~Destroy",Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        if (map != null) {
-            map.setMyLocationEnabled(true);
-        }
-
-        if(mCompassEnabled) {
-            mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_UI);
-        }
+    public void onStop() {
+        super.onStop();
+        Toast.makeText(getActivity(),"BYE",Toast.LENGTH_SHORT).show();
     }
-
-    private final SensorEventListener mListener = new SensorEventListener() {
-        private int iOrientation = -1;
-
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-
-        public void onSensorChanged(SensorEvent event) {
-            if (iOrientation < 0) {
-                iOrientation = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-            }
-            mCompassView.setAzimuth(event.values[0] + 90 * iOrientation);
-            mCompassView.invalidate();
-        }
-    };
 }
