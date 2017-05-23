@@ -51,6 +51,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         return _recent.size();
     }
 
+    //아이템 이동
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         if(fromPosition < 0 || fromPosition >= _recent.size() || toPosition < 0 || toPosition >= _recent.size()){
@@ -66,6 +67,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
 
     }
 
+    //아이템 삭제
     @Override
     public void onItemRemove(int position) {
         _recent.remove(position);
