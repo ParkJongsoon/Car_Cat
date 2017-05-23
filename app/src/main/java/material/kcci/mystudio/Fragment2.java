@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -177,8 +178,9 @@ public class Fragment2 extends Fragment
             RecentAdapter reA = new RecentAdapter(_recents);
             _recyclerView.setAdapter(reA);
 
-
-
+            //Item삭제 및 이동
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(reA));
+            itemTouchHelper.attachToRecyclerView(_recyclerView);
 
         } catch (JSONException e)
         {
