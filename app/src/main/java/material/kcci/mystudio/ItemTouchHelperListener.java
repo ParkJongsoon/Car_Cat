@@ -5,8 +5,6 @@ package material.kcci.mystudio;
  */
 
 public interface ItemTouchHelperListener {
-
     boolean onItemMove(int fromPosition, int toPosition);
     void onItemRemove(int position);
-
 }

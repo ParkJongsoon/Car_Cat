@@ -1,6 +1,6 @@
 package material.kcci.mystudio;
 
-import android.util.Log;
+import android.graphics.Bitmap;
 
 /**
  * Created by db2 on 2017-05-17.
@@ -17,21 +17,20 @@ public class Recent
         }
 
         public void set_Id(String id) {
-            Log.d("_recent_TAG",id);
             _id = id;
         }
         //endregion
 
-    private int _imageID;
+    private Bitmap _imageID;
 
-    public int get_imageID()
+    public Bitmap get_imageID()
     {
         return _imageID;
     }
 
-    public void set_imageID(int imageID)
+    public void set_imageID(Bitmap imaImageID)
     {
-        _imageID = imageID;
+        _imageID = imaImageID;
     }
 
 

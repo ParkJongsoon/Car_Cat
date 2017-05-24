@@ -4,8 +4,11 @@ package material.kcci.mystudio;
  * Created by db2 on 2017-05-17.
  */
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,22 +24,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class Fragment2 extends Fragment
 {
     RecyclerView _recyclerView;
-    private ArrayList<Recent> _recents;
+
 
     public Fragment2()
     {
         Log.d("TAG", "Fragment2");
-        // Required empty public constructor
     }
 
     @Override
@@ -53,6 +56,10 @@ public class Fragment2 extends Fragment
         _recyclerView.setLayoutManager(_layoutManager);
         _recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        //android.os.NetworkOnMainThreadException 발생하는 경우 처리 방법...이거 맞을까...이거 아닐꺼같은데
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         return root_page;
     }
 
@@ -65,8 +72,6 @@ public class Fragment2 extends Fragment
     private static final String TAG_NAME = "name";
     private static final String TAG_ADD = "address";
     JSONArray _jsonArray = null;
-    ArrayList<HashMap<String, String>> personList;
-    RecentAdapter myAdapter;
 
     //endregion
 
@@ -119,6 +124,7 @@ public class Fragment2 extends Fragment
     //region showList
     protected void showList()
     {
+        String imageUrl = "http://img.etnews.com/news/article/2015/11/19/cms_temp_article_19113605067959.jpg";
         ArrayList<Recent> _recents = new ArrayList<>();
         try
         {
@@ -135,20 +141,10 @@ public class Fragment2 extends Fragment
                 String name = c.getString(TAG_NAME);
                 String address = c.getString(TAG_ADD);
 
-                if(i%2==0)
-                {
-                    recent.set_imageID(R.drawable.gray);
-                    recent.set_Id(id);
-                    recent.set_title(address);
-                    recent.set_info(name);
-                }
-                else
-                {
-                    recent.set_imageID(R.drawable.jpark);
-                    recent.set_Id(id);
-                    recent.set_title(address);
-                    recent.set_info(name);
-                }
+                recent.set_imageID(getBitmap(imageUrl));
+                recent.set_Id(id);
+                recent.set_title(address);
+                recent.set_info(name);
 
                 _recents.add(recent);
             }
@@ -168,5 +164,21 @@ public class Fragment2 extends Fragment
     }
     //endregion
 
+    public static Bitmap getBitmap(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
 }
+
 

@@ -38,9 +38,8 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recent recent = _recent.get(position);
-        Log.d("TAG","Items");
         //Recent에 있는 데이터들을 해당 View에 갖다 붙여버린다.
-        holder.imageID.setBackgroundResource(recent.get_imageID());
+        holder.imageID.setImageBitmap(recent.get_imageID());
         holder.dataId.setText(recent.get_Id());
         holder.titleText.setText(recent.get_title());
         holder.infoText.setText(recent.get_info());
