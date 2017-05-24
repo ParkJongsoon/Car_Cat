@@ -19,9 +19,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="8dp"
             android:elevation="1dp"
-            android:textSize="40dp"
-            android:textColor="@android:color/white"
             android:text="NOW"
+            android:textColor="@android:color/white"
+            android:textSize="38sp"
             app:layout_constraintBottom_toBottomOf="@+id/button2"
             app:layout_constraintRight_toRightOf="@+id/button2"
             app:layout_constraintTop_toTopOf="@+id/button2"
@@ -37,7 +37,7 @@
             android:elevation="1dp"
             android:text="SEARCH"
             android:textColor="@android:color/white"
-            android:textSize="40dp"
+            android:textSize="38dp"
             app:layout_constraintBottom_toBottomOf="@+id/button2"
             app:layout_constraintLeft_toLeftOf="@+id/button2"
             app:layout_constraintTop_toTopOf="@+id/button2"
@@ -45,19 +45,19 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="199dp"
-            android:layout_height="44dp"
-            android:layout_marginBottom="-8dp"
+            android:layout_width="128dp"
+            android:layout_height="39dp"
+            android:layout_marginBottom="9dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:elevation="1dp"
-            android:text="현재 위치로"
-            android:textColor="@android:color/black"
+            android:text="목적지 저장"
+            android:textColor="@android:color/white"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/mapStart"
+            app:layout_constraintHorizontal_bias="0.665"
             app:layout_constraintLeft_toLeftOf="@+id/mapStart"
-            app:layout_constraintRight_toRightOf="@+id/mapStart"
-            app:layout_constraintHorizontal_bias="0.633"/>
+            app:layout_constraintRight_toRightOf="@+id/mapStart"/>
 
         <com.sackcentury.shinebuttonlib.ShineButton
             android:id="@+id/button2"

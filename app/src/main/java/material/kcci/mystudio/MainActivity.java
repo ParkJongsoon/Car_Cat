@@ -1,8 +1,10 @@
 package material.kcci.mystudio;
 
+import android.hardware.Camera;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,10 +15,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button bt_tab1, bt_tab2;
 
+    private Camera camera = null;
+    public static boolean STATE = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        camera = Camera.open(1);
+        camera.setFaceDetectionListener(new FaceDetect());
+
 
         // 위젯에 대한 참조
         bt_tab1 = (Button)findViewById(R.id.bt_tab1);
@@ -69,5 +78,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        camera.startFaceDetection();
+        camera.startPreview();
+        STATE = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        camera.stopFaceDetection();
+        camera.stopPreview();
+        STATE = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (STATE != true) {
+            camera.startFaceDetection();
+            camera.startPreview();
+            STATE = true;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        camera.stopFaceDetection();
+        camera.stopPreview();
+        STATE = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        camera.release();
+        camera = null;
+        STATE = false;
+    }
+
+
+
+
+    class FaceDetect implements Camera.FaceDetectionListener{
+
+        @Override
+        public void onFaceDetection(Camera.Face[] faces, Camera camera) {
+            if (faces.length > 0){
+                Log.d("FaceDetection", "face detected: "+ faces.length +
+                        " Face 1 Location X: " + faces[0].rect.centerX() +
+                        "Y: " + faces[0].rect.centerY() );
+            }
+        }
+
+    }
 
 }
