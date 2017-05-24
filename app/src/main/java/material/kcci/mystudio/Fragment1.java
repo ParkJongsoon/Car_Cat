@@ -7,25 +7,16 @@ package material.kcci.mystudio;
 
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +26,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,8 +43,8 @@ public class Fragment1 extends Fragment {
     private Geocoder geocoder;
     private TextView searchName;
     private TextView searchAddr;
-    private Button findBtn;
-    private Button startBtn;
+    private ShineButton findBtn;
+    private ShineButton startBtn;
     private List<Address> list;
     int RESULT_SPEECH = 1;
     Intent i;
@@ -71,15 +63,18 @@ public class Fragment1 extends Fragment {
         geocoder = new Geocoder(getActivity());
         searchName = (TextView) root_page.findViewById(R.id.textView3);
         searchAddr = (TextView) root_page.findViewById(R.id.textView2);
-        findBtn = (Button) root_page.findViewById(R.id.button2);
-        startBtn = (Button) root_page.findViewById(R.id.mapStart);
+        findBtn = (ShineButton) root_page.findViewById(R.id.button2);
+        startBtn = (ShineButton) root_page.findViewById(R.id.mapStart);
         mymap = new Map(getActivity(),map);
 
         findBtn.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
+                findBtn.setChecked(false);
+
                 if (v.getId() == R.id.button2)
                 {
                     i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -103,6 +98,8 @@ public class Fragment1 extends Fragment {
             @Override
             public void onClick(View v)
             {
+                startBtn.setChecked(false);
+
                 String name = searchName.getText().toString();
                 String address = searchAddr.getText().toString();
 
