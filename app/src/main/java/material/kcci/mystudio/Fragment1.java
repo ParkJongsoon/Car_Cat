@@ -8,6 +8,7 @@ package material.kcci.mystudio;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.sackcentury.shinebuttonlib.ShineButton;
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +113,9 @@ public class Fragment1 extends Fragment {
                         Toast.makeText(getActivity(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
                     }
                 }
-
+                mymap.CaptureMapScreen();
                 ConnectPHP conPhp = new ConnectPHP();
+//                conPhp.insertToDatabase(name,address,image);
                 conPhp.insertToDatabase(name,address);
                 mymap.requestMyLocation();
             }
@@ -188,15 +192,23 @@ public class Fragment1 extends Fragment {
         return list;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getActivity(),"Bye~Destroy",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Toast.makeText(getActivity(),"BYE",Toast.LENGTH_SHORT).show();
-    }
+//    public void CaptureMapScreen()
+//    {
+//        SnapshotReadyCallback callback = new SnapshotReadyCallback() {
+//            Bitmap bitmap;
+//
+//            @Override
+//            public void onSnapshotReady(Bitmap snapshot) {
+//                // TODO Auto-generated method stub
+//                bitmap = snapshot;
+//                try {
+//                    FileOutputStream out = new FileOutputStream("/storage/emulated/0/"+"MyMapScreen" + System.currentTimeMillis()+ ".png");
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        map.snapshot(callback);
+//    }
 }
