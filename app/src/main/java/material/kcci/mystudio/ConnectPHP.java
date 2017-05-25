@@ -89,7 +89,6 @@ public class ConnectPHP {
         {
             //ProgressDialog loading2;
 
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -111,7 +110,7 @@ public class ConnectPHP {
                 try{
                     String id = (String)params[0];
 
-                    String link="http://118.91.118.27/CarCat/delete.php";
+                    String link="http://118.91.118.27/CarCat/delete1.php";
 
                     String data  = URLEncoder.encode("id", "UTF-8") + "="
                             + URLEncoder.encode(id, "UTF-8");
@@ -151,4 +150,60 @@ public class ConnectPHP {
         task.execute(id);
     }
     //endregion
+
+
+    protected void clearToDatabase ()
+    {
+        class DeleteAllData extends AsyncTask<String, Void, String>
+        {
+            @Override
+            protected void onPreExecute()
+            {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s)
+            {
+                super.onPostExecute(s);
+            }
+
+            @Override
+            protected String doInBackground(String... params)
+            {
+                try{
+
+                    String link="http://118.91.118.27/CarCat/delete1.php";
+
+                    URL url = new URL(link);
+                    URLConnection conn = url.openConnection();
+
+                    conn.setDoOutput(true);
+                    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+                    wr.flush();
+
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream()));
+
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+
+                    // Read Server Response
+                    while((line = reader.readLine()) != null)
+                    {
+                        sb.append(line);
+                        break;
+                    }
+                    return sb.toString();
+                }
+                catch(Exception e){
+
+                    return new String("Exception: " + e.getMessage());
+                }
+            }
+        }
+        DeleteAllData task = new DeleteAllData();
+        task.execute();
+    }
 }

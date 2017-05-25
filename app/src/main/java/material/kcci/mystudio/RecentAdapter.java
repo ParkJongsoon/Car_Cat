@@ -1,7 +1,6 @@
 package material.kcci.mystudio;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +75,7 @@ public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder
         String delIdnum = recent.get_Id();
         ConnectPHP conPHP = new ConnectPHP();
         conPHP.deleteToDatabase(delIdnum);
+        conPHP.clearToDatabase();
         _recent.remove(position);
         notifyItemRemoved(position);
     }

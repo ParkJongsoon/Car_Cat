@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 public class Fragment2 extends Fragment
 {
     RecyclerView _recyclerView;
+    Button clearbtn;
 
 
     public Fragment2()
@@ -43,15 +45,17 @@ public class Fragment2 extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
     {
-        ViewGroup root_page = (ViewGroup) inflater.inflate(R.layout.fragment_fragment2, container, false);
+        final ViewGroup root_page = (ViewGroup) inflater.inflate(R.layout.fragment_fragment2, container, false);
         _recyclerView = (RecyclerView) root_page.findViewById(R.id.recyclerView);
+        clearbtn = (Button) root_page.findViewById(R.id.clear);
 
         getData("http://118.91.118.27/CarCat/select.php");
 
         //use a linear Layout Manaager -> (여긴 설정하기 나름)레이아웃 매니저 이용하여 객체 연결
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getActivity());
+
         //여기가 이제 레이아웃 매니저 붙이는 곳
         _recyclerView.setLayoutManager(_layoutManager);
         _recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -59,6 +63,24 @@ public class Fragment2 extends Fragment
         //android.os.NetworkOnMainThreadException 발생하는 경우 처리 방법...이거 맞을까...이거 아닐꺼같은데
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        clearbtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(v.getId() == R.id.clear) {
+//
+                    ConnectPHP clear = new ConnectPHP();
+                    clear.clearToDatabase();
+                    getData("http://118.91.118.27/CarCat/select.php");
+                }
+
+              //  MainActivity callback = new MainActivity();
+
+            }
+        });
+
 
         return root_page;
     }
@@ -86,7 +108,8 @@ public class Fragment2 extends Fragment
                 String uri = params[0];
 
                 BufferedReader bufferedReader = null;
-                try {
+                try
+                {
                     URL url = new URL(uri);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     StringBuilder sb = new StringBuilder();
@@ -94,14 +117,14 @@ public class Fragment2 extends Fragment
                     bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
                     String json;
-                    while((json = bufferedReader.readLine())!= null){
-                        sb.append(json+"\n");
+                    while ((json = bufferedReader.readLine()) != null)
+                    {
+                        sb.append(json + "\n");
                     }
 
                     return sb.toString().trim();
 
-                }
-                catch(Exception e)
+                } catch (Exception e)
                 {
                     return null;
                 }
@@ -111,8 +134,7 @@ public class Fragment2 extends Fragment
             protected void onPostExecute(String result)
             {
                 myJSON = result;
-                Log.d("onPostExecute",result);
-                //_recents = new ArrayList<Recent>(showList());
+                Log.d("onPostExecute", result);
                 showList();
             }
         }
@@ -124,7 +146,7 @@ public class Fragment2 extends Fragment
     //region showList
     protected void showList()
     {
-        String imageUrl = "http://img.etnews.com/news/article/2015/11/19/cms_temp_article_19113605067959.jpg";
+        String imageUrl = "http://mblogthumb1.phinf.naver.net/20160220_292/cool71su_1455895502641AGSox_JPEG/attachImage_847099030.jpeg?type=w800";
         ArrayList<Recent> _recents = new ArrayList<>();
         try
         {
@@ -164,8 +186,10 @@ public class Fragment2 extends Fragment
     }
     //endregion
 
-    public static Bitmap getBitmap(String src) {
-        try {
+    public static Bitmap getBitmap(String src)
+    {
+        try
+        {
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
@@ -174,7 +198,8 @@ public class Fragment2 extends Fragment
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             // Log exception
             return null;
         }
