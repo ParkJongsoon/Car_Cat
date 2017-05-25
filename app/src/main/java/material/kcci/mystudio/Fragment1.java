@@ -8,6 +8,7 @@ package material.kcci.mystudio;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +113,23 @@ public class Fragment1 extends Fragment {
                     }
                 }
 
+                GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+                    Bitmap bitmap;
+
+                    @Override
+                    public void onSnapshotReady(Bitmap snapshot) {
+                        bitmap = snapshot;
+                        try {
+                            FileOutputStream out = new FileOutputStream("/storage/test.png");
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                map.snapshot(callback);
+
                 ConnectPHP conPhp = new ConnectPHP();
                 conPhp.insertToDatabase(name,address);
                 mymap.requestMyLocation();
@@ -186,17 +205,5 @@ public class Fragment1 extends Fragment {
             Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
         }
         return list;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getActivity(),"Bye~Destroy",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Toast.makeText(getActivity(),"BYE",Toast.LENGTH_SHORT).show();
     }
 }

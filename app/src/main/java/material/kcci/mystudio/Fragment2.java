@@ -52,6 +52,7 @@ public class Fragment2 extends Fragment
 
         //use a linear Layout Manaager -> (여긴 설정하기 나름)레이아웃 매니저 이용하여 객체 연결
         RecyclerView.LayoutManager _layoutManager = new LinearLayoutManager(getActivity());
+
         //여기가 이제 레이아웃 매니저 붙이는 곳
         _recyclerView.setLayoutManager(_layoutManager);
         _recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -124,7 +125,7 @@ public class Fragment2 extends Fragment
     //region showList
     protected void showList()
     {
-        String imageUrl = "http://img.etnews.com/news/article/2015/11/19/cms_temp_article_19113605067959.jpg";
+        String imageUrl = "http://mblogthumb1.phinf.naver.net/20160220_292/cool71su_1455895502641AGSox_JPEG/attachImage_847099030.jpeg?type=w800";
         ArrayList<Recent> _recents = new ArrayList<>();
         try
         {
