@@ -2,20 +2,16 @@ package material.kcci.mystudio;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.FileOutputStream;
 
 /**
  * Created by db2 on 2017-05-23.
@@ -109,26 +105,5 @@ public class Map
                 + "Lng:" + findDest.longitude).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 .title("목적지"));
         _map.animateCamera(CameraUpdateFactory.newLatLngZoom(findDest,15));
-//        _map.moveCamera(CameraUpdateFactory.newLatLngZoom(findDest,15));
-    }
-
-    public void CaptureMapScreen()
-    {
-        GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
-            Bitmap bitmap;
-
-            @Override
-            public void onSnapshotReady(Bitmap snapshot) {
-                // TODO Auto-generated method stub
-                bitmap = snapshot;
-                try {
-                    FileOutputStream out = new FileOutputStream("/storage/emulated/0/"+"MyMapScreen" + System.currentTimeMillis()+ ".png");
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        _map.snapshot(callback);
     }
 }
