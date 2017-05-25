@@ -113,6 +113,7 @@ public class Fragment1 extends Fragment {
                         double lat = addr.getLatitude();
                         double lon = addr.getLongitude();
                         mymap.showMyLocationMarker(lat,lon);
+                        Toast.makeText(getActivity(),"Success",Toast.LENGTH_SHORT).show();
                     }
                 }
                 ConnectPHP conPhp = new ConnectPHP();
@@ -190,5 +191,9 @@ public class Fragment1 extends Fragment {
             Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
         }
         return list;
+    }
+
+    public void refreshMyData()
+    {
     }
 }

@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         STATE = true;
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         if (STATE != true) {
-            camera.startFaceDetection();
+//            camera.startFaceDetection();
             camera.startPreview();
             STATE = true;
         }
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        camera.stopFaceDetection();
+//        camera.stopFaceDetection();
         camera.stopPreview();
         STATE = false;
     }
@@ -120,7 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         STATE = false;
     }
 
-
+    public void refreshMyData()
+    {
+    }
 
 
     class FaceDetect implements Camera.FaceDetectionListener{
