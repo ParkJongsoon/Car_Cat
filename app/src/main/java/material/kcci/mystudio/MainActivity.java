@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        camera.startFaceDetection();
+//        camera.startFaceDetection();
         camera.startPreview();
         STATE = true;
     }
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        camera.stopFaceDetection();
+//        camera.stopFaceDetection();
         camera.stopPreview();
         STATE = false;
     }

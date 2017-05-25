@@ -104,10 +104,15 @@ public class Fragment1 extends Fragment {
                 String address = searchAddr.getText().toString();
 
                 list = null;
-                list=checkaddrss();
+                list = checkaddrss();
                 if (list != null) {
                     if (list.size() == 0) {
                         Toast.makeText(getActivity(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Address addr = list.get(0);
+                        double lat = addr.getLatitude();
+                        double lon = addr.getLongitude();
+                        mymap.showMyLocationMarker(lat,lon);
                     }
                 }
                 ConnectPHP conPhp = new ConnectPHP();
