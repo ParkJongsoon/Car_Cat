@@ -15,6 +15,7 @@ import java.net.URLEncoder;
 
 public class ConnectPHP {
 
+
     //region insertToDatabase
     protected void insertToDatabase(String name,String addr){
 
