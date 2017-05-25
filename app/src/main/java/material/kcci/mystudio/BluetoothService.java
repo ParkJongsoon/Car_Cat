@@ -29,6 +29,7 @@ public class BluetoothService {
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
+
     private BluetoothAdapter btAdapter;
 
     private Activity mActivity;
@@ -292,9 +293,7 @@ public class BluetoothService {
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
-                    Log.e(TAG,
-                            "unable to close() socket during connection failure",
-                            e2);
+                    Log.e(TAG,"unable to close() socket during connection failure",e2);
                 }
                 // 연결중? 혹은 연결 대기상태인 메소드를 호출한다.
                 BluetoothService.this.start();
@@ -321,7 +320,7 @@ public class BluetoothService {
 
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
+        private InputStream mmInStream;
         private final OutputStream mmOutStream;
 
         public ConnectedThread(BluetoothSocket socket) {
@@ -351,7 +350,9 @@ public class BluetoothService {
             while (true) {
                 try {
                     // InputStream으로부터 값을 받는 읽는 부분(값을 받는다)
+
                     bytes = mmInStream.read(buffer);
+
 
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);

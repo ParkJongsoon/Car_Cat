@@ -192,8 +192,4 @@ public class Fragment1 extends Fragment {
         }
         return list;
     }
-
-    public void refreshMyData()
-    {
-    }
 }
