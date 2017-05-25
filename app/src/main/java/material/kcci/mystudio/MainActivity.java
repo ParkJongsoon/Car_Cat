@@ -2,8 +2,6 @@ package material.kcci.mystudio;
 
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,26 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
-    //region bluetooth
-
-    private static final String TAG = "Main";
-
-    // Intent request code
-    private static final int REQUEST_CONNECT_DEVICE = 1;
-    private static final int REQUEST_ENABLE_BT = 2;
-
-    private BluetoothService btService = null;
-
-    private final Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-
-    };
-    //endregion
 
 
 
@@ -46,19 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        // BluetoothService 클래스 생성
-        if(btService == null) {
-            btService = new BluetoothService(this, mHandler);}
-
-        if(btService.getDeviceState()) {
-            // 블루투스가 지원 가능한 기기일 때
-            btService.enableBluetooth();
-        } else {
-            finish();
-        }
-
 
         camera = Camera.open(1);
         camera.setFaceDetectionListener(new FaceDetect());
@@ -171,23 +136,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    /*//기기의 블루투스 상태가 Off일 경우 블루투스 활성화를 요청하는 알림창을 띄운다.
-    //알림창에서 확인/취소를 선택할 경우 결과는 MainActivity에 onActivityResult()메소드로 들어온다.
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        switch (requestCode) {
-            case REQUEST_ENABLE_BT:
-                // When the request to enable Bluetooth returns
-                if (resultCode == Activity.RESULT_OK) {
-                    // 확인 눌렀을 때
-                    //Next Step
-                } else {
-                    // 취소 눌렀을 때
-                    Log.d(TAG, "Bluetooth is not enabled");
-                }
-                break;
-        }
-    }*/
 
 }
