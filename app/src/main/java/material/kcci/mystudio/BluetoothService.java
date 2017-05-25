@@ -13,12 +13,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-/**
- * Created by User on 2017-05-25.
- */
 
 public class BluetoothService {
-
     // Debugging
     private static final String TAG = "BluetoothService";
 
@@ -27,27 +23,30 @@ public class BluetoothService {
     private static final int REQUEST_ENABLE_BT = 2;
 
     // RFCOMM Protocol
-    private static final UUID MY_UUID = UUID
-            .fromString("00000003-0000-1000-8000-00805F9B34FB");
+    //좆같은 시발 UUID -> 블루투스
+
+    //SerialPortServiceClass_UUID 00001101-0000-1000-8000-00805f9b34fb
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
 
     private BluetoothAdapter btAdapter;
 
     private Activity mActivity;
     private Handler mHandler;
+
+    private ConnectThread mConnectThread; // 변수명 다시
+    private ConnectedThread mConnectedThread; // 변수명 다시
+
     private int mState;
-
-    private ConnectThread mConnectThread; //쓰레드 연결
-    private ConnectedThread mConnectedThread; //쓰레드 연결 후
-
 
     // 상태를 나타내는 상태 변수
     private static final int STATE_NONE = 0; // we're doing nothing
-    private static final int STATE_LISTEN = 1; // now listening for incoming connections
-    private static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
-    private static final int STATE_CONNECTED = 3; // now connected to a remote device
-
-
-
+    private static final int STATE_LISTEN = 1; // now listening for incoming
+    // connections
+    private static final int STATE_CONNECTING = 2; // now initiating an outgoing
+    // connection
+    private static final int STATE_CONNECTED = 3; // now connected to a remote
+    // device
 
     // Constructors
     public BluetoothService(Activity ac, Handler h) {
@@ -58,6 +57,50 @@ public class BluetoothService {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
+    /**
+     * Check the Bluetooth support
+     *
+     * @return boolean
+     */
+    public boolean getDeviceState() {
+        Log.i(TAG, "Check the Bluetooth support");
+
+        if (btAdapter == null) {
+            Log.d(TAG, "Bluetooth is not available");
+
+            return false;
+
+        } else {
+            Log.d(TAG, "Bluetooth is available");
+
+            return true;
+        }
+    }
+
+    /**
+     * Check the enabled Bluetooth
+     */
+    public void enableBluetooth() {
+        Log.i(TAG, "Check the enabled Bluetooth");
+
+        if (btAdapter.isEnabled()) {
+            // 기기의 블루투스 상태가 On인 경우
+            Log.d(TAG, "Bluetooth Enable Now");
+
+            // Next Step
+            scanDevice();
+        } else {
+            // 기기의 블루투스 상태가 Off인 경우
+            Log.d(TAG, "Bluetooth Enable Request");
+
+            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            mActivity.startActivityForResult(i, REQUEST_ENABLE_BT);
+        }
+    }
+
+    /**
+     * Available device search
+     */
     public void scanDevice() {
         Log.d(TAG, "Scan Device");
 
@@ -65,6 +108,11 @@ public class BluetoothService {
         mActivity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
     }
 
+    /**
+     * after scanning and get device info
+     *
+     * @param data
+     */
     public void getDeviceInfo(Intent data) {
         // Get the device MAC address
         String address = data.getExtras().getString(
@@ -77,50 +125,6 @@ public class BluetoothService {
 
         connect(device);
     }
-
-
-    //etDeviceState() 라는 메소드를 만들어서 기기의 블루투스 지원여부를 확인 한다.
-    //BluetoothAdapter가 null일 경우 블루투스 통신을 지원하지 않는 기기이다.
-    public boolean getDeviceState() {
-        Log.d(TAG, "Check the Bluetooth support");
-
-        if(btAdapter == null) {
-            Log.d(TAG, "Bluetooth is not available");
-
-            return false;
-
-        } else {
-            Log.d(TAG, "Bluetooth is available");
-
-            return true;
-        }
-    }
-
-
-    //bluethoothservice 클래스의 getDeviceState()가 true를 반환할 경우 블루투스 활성화를 요청한다
-    //블루투스 활성화 요청을 위해서 enableBluetooth()라는 메소드를 만듦
-    public void enableBluetooth() {
-        Log.i(TAG, "Check the enabled Bluetooth");
-
-
-        if(btAdapter.isEnabled()) {
-            // 기기의 블루투스 상태가 On인 경우
-            Log.d(TAG, "Bluetooth Enable Now");
-
-            // Next Step
-        } else {
-            // 기기의 블루투스 상태가 Off인 경우
-            Log.d(TAG, "Bluetooth Enable Request");
-
-            Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            mActivity.startActivityForResult(i, REQUEST_ENABLE_BT);
-        }
-    }
-
-
-
-
-
 
     // Bluetooth 상태 set
     private synchronized void setState(int state) {
@@ -256,26 +260,8 @@ public class BluetoothService {
             mmDevice = device;
             BluetoothSocket tmp = null;
 
-			/*
-			 * / // Get a BluetoothSocket to connect with the given
-			 * BluetoothDevice try { // MY_UUID is the app's UUID string, also
-			 * used by the server // code tmp =
-			 * device.createRfcommSocketToServiceRecord(MY_UUID);
-			 *
-			 * try { Method m = device.getClass().getMethod(
-			 * "createInsecureRfcommSocket", new Class[] { int.class }); try {
-			 * tmp = (BluetoothSocket) m.invoke(device, 15); } catch
-			 * (IllegalArgumentException e) { // TODO Auto-generated catch block
-			 * e.printStackTrace(); } catch (IllegalAccessException e) { // TODO
-			 * Auto-generated catch block e.printStackTrace(); } catch
-			 * (InvocationTargetException e) { // TODO Auto-generated catch
-			 * block e.printStackTrace(); }
-			 *
-			 * } catch (NoSuchMethodException e) { // TODO Auto-generated catch
-			 * block e.printStackTrace(); } } catch (IOException e) { } /
-			 */
 
-            // ����̽� ������ �� BluetoothSocket ����
+            // 디바이스 정보를 얻어서 BluetoothSocket 생성
             try {
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
@@ -288,21 +274,21 @@ public class BluetoothService {
             Log.i(TAG, "BEGIN mConnectThread");
             setName("ConnectThread");
 
-            // ������ �õ��ϱ� ������ �׻� ��� �˻��� �����Ѵ�.
-            // ��� �˻��� ��ӵǸ� ����ӵ��� �������� �����̴�.
+            // 연결을 시도하기 전에는 항상 기기 검색을 중지한다.
+            // 기기 검색이 계속되면 연결속도가 느려지기 때문이다.
             btAdapter.cancelDiscovery();
 
-            // BluetoothSocket ���� �õ�
+            // BluetoothSocket 연결 시도
             try {
-                // BluetoothSocket ���� �õ��� ���� return ���� succes �Ǵ� exception�̴�.
+                // BluetoothSocket 연결 시도에 대한 return 값은 succes 또는 exception이다.
                 mmSocket.connect();
                 Log.d(TAG, "Connect Success");
 
             } catch (IOException e) {
-                connectionFailed(); // ���� ���н� �ҷ����� �޼ҵ�
+                connectionFailed(); // 연결 실패시 불러오는 메소드
                 Log.d(TAG, "Connect Fail");
 
-                // socket�� �ݴ´�.
+                // socket을 닫는다.
                 try {
                     mmSocket.close();
                 } catch (IOException e2) {
@@ -310,14 +296,17 @@ public class BluetoothService {
                             "unable to close() socket during connection failure",
                             e2);
                 }
-
+                // 연결중? 혹은 연결 대기상태인 메소드를 호출한다.
                 BluetoothService.this.start();
                 return;
             }
+
+            // ConnectThread 클래스를 reset한다.
             synchronized (BluetoothService.this) {
                 mConnectThread = null;
             }
 
+            // ConnectThread를 시작한다.
             connected(mmSocket, mmDevice);
         }
 
@@ -341,7 +330,7 @@ public class BluetoothService {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            // BluetoothSocket�� inputstream �� outputstream�� ��´�.
+            // BluetoothSocket의 inputstream 과 outputstream을 얻는다.
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
@@ -361,7 +350,7 @@ public class BluetoothService {
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                    // InputStream���κ��� ���� �޴� �д� �κ�(���� �޴´�)
+                    // InputStream으로부터 값을 받는 읽는 부분(값을 받는다)
                     bytes = mmInStream.read(buffer);
 
                 } catch (IOException e) {
@@ -380,7 +369,7 @@ public class BluetoothService {
          */
         public void write(byte[] buffer) {
             try {
-                // ���� ���� �κ�(���� ������)
+                // 값을 쓰는 부분(값을 보낸다)
                 mmOutStream.write(buffer);
 
             } catch (IOException e) {
@@ -396,5 +385,4 @@ public class BluetoothService {
             }
         }
     }
-
 }

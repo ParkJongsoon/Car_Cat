@@ -69,14 +69,13 @@ public class StartActivity extends AppCompatActivity {
 
         switch (requestCode) {
 
-            /** �߰��� �κ� ���� **/
             case REQUEST_CONNECT_DEVICE:
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
                     btService.getDeviceInfo(data);
                 }
                 break;
-            /** �߰��� �κ� �� **/
+
             case REQUEST_ENABLE_BT:
                 // When the request to enable Bluetooth returns
                 if (resultCode == Activity.RESULT_OK) {
