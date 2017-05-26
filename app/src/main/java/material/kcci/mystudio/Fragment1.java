@@ -67,6 +67,9 @@ public class Fragment1 extends Fragment {
         startBtn = (ShineButton) root_page.findViewById(R.id.mapStart);
         mymap = new Map(getActivity(),map);
 
+
+
+
         findBtn.setOnClickListener(new View.OnClickListener()
         {
 
@@ -110,8 +113,11 @@ public class Fragment1 extends Fragment {
                         Toast.makeText(getActivity(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
                     } else {
                         Address addr = list.get(0);
+                        Log.d("MY_ADDR",addr.toString());
                         double lat = addr.getLatitude();
                         double lon = addr.getLongitude();
+                        Log.d("FINISH_ADDR_1",String.valueOf(lat));
+                        Log.d("FINISH_ADDR_1",String.valueOf(lon));
                         mymap.showMyLocationMarker(lat,lon);
                         Toast.makeText(getActivity(),"Success",Toast.LENGTH_SHORT).show();
                     }

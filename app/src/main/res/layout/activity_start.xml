@@ -5,33 +5,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/car"
     tools:context="material.kcci.mystudio.StartActivity">
 
     <TextView
         android:id="@+id/textView8"
-        android:textSize="50dp"
-        android:layout_width="334dp"
-        android:layout_height="194dp"
+        android:layout_width="333dp"
+        android:layout_height="172dp"
+        android:layout_marginBottom="137dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="118dp"
-        android:text="차량용 개인비서  자비스를 시작하시겠습니까?"
-        app:layout_constraintHorizontal_bias="0.512"
+        android:text="차량용 개인비서 자비스를 시작하시겠습니까?"
+        android:textColor="@android:color/white"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/startbtn"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="113dp"/>
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.939"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/startbtn"
-        android:layout_width="222dp"
-        android:layout_height="53dp"
+        android:layout_width="263dp"
+        android:layout_height="73dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="시작하기"
+        android:src="@drawable/jarvis"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="38dp"
+        app:layout_constraintHorizontal_bias="0.504"/>
+
+    <TextView
+        android:id="@+id/dateNow"
+        android:layout_width="164dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="시작하기"
-
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.533"/>
 </android.support.constraint.ConstraintLayout>

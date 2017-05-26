@@ -22,12 +22,14 @@ public class BluetoothService {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
 
+    int mainNum = 0;
+
     // RFCOMM Protocol
     //UUID -> 블루투스
     //SerialPortServiceClass_UUID 00001101-0000-1000-8000-00805f9b34fb
-    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
-
+    Access access = new Access();
 
     private BluetoothAdapter btAdapter;
 
@@ -48,7 +50,10 @@ public class BluetoothService {
     private static final int STATE_CONNECTED = 3;
     // device
 
+
+
     MainActivity mainObject = new MainActivity();
+
 
     // Constructors
     public BluetoothService(Activity ac, Handler h) {
@@ -276,6 +281,7 @@ public class BluetoothService {
             } catch (IOException e) {
                 connectionFailed(); // 연결 실패시 불러오는 메소드
                 Log.d(TAG, "Connect Fail");
+                Log.d(TAG,e.toString());
 
                 // socket을 닫는다.
                 try {
@@ -341,19 +347,15 @@ public class BluetoothService {
                         byte[] packetBytes = new byte[bytesAvailable];
                         // Read from the InputStream
                         mmInStream.read(packetBytes);
-
                         for(int i=0;i<bytesAvailable;i++) {
-
                             byte b = packetBytes[i];
                             if(b == '\n')
                             {
                                 byte[] encodedBytes = new byte[bytes];
-                                System.arraycopy(buffer, 0, encodedBytes, 0,
-                                        encodedBytes.length);
+                                System.arraycopy(buffer, 0, encodedBytes, 0,encodedBytes.length);
                                 String outValue= new String(encodedBytes, "UTF-8");
                                 bytes = 0;
                                 Log.d(TAG, "Arduino -> Android " + outValue);
-
                                 mainObject.distanceValue(outValue);
                             }
                             else
