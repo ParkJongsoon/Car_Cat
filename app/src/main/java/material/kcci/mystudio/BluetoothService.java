@@ -23,8 +23,7 @@ public class BluetoothService {
     private static final int REQUEST_ENABLE_BT = 2;
 
     // RFCOMM Protocol
-    //좆같은 시발 UUID -> 블루투스
-
+    //UUID -> 블루투스
     //SerialPortServiceClass_UUID 00001101-0000-1000-8000-00805f9b34fb
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -35,19 +34,21 @@ public class BluetoothService {
     private Activity mActivity;
     private Handler mHandler;
 
-    private ConnectThread mConnectThread; // 변수명 다시
-    private ConnectedThread mConnectedThread; // 변수명 다시
+    private ConnectThread mConnectThread;
+    private ConnectedThread mConnectedThread;
 
     private int mState;
 
     // 상태를 나타내는 상태 변수
-    private static final int STATE_NONE = 0; // we're doing nothing
-    private static final int STATE_LISTEN = 1; // now listening for incoming
+    private static final int STATE_NONE = 0;
+    private static final int STATE_LISTEN = 1;
     // connections
-    private static final int STATE_CONNECTING = 2; // now initiating an outgoing
+    private static final int STATE_CONNECTING = 2;
     // connection
-    private static final int STATE_CONNECTED = 3; // now connected to a remote
+    private static final int STATE_CONNECTED = 3;
     // device
+
+    MainActivity mainObject = new MainActivity();
 
     // Constructors
     public BluetoothService(Activity ac, Handler h) {
@@ -58,11 +59,6 @@ public class BluetoothService {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
-    /**
-     * Check the Bluetooth support
-     *
-     * @return boolean
-     */
     public boolean getDeviceState() {
         Log.i(TAG, "Check the Bluetooth support");
 
@@ -78,9 +74,7 @@ public class BluetoothService {
         }
     }
 
-    /**
-     * Check the enabled Bluetooth
-     */
+
     public void enableBluetooth() {
         Log.i(TAG, "Check the enabled Bluetooth");
 
@@ -99,9 +93,7 @@ public class BluetoothService {
         }
     }
 
-    /**
-     * Available device search
-     */
+
     public void scanDevice() {
         Log.d(TAG, "Scan Device");
 
@@ -109,11 +101,7 @@ public class BluetoothService {
         mActivity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
     }
 
-    /**
-     * after scanning and get device info
-     *
-     * @param data
-     */
+
     public void getDeviceInfo(Intent data) {
         // Get the device MAC address
         String address = data.getExtras().getString(
@@ -344,30 +332,43 @@ public class BluetoothService {
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[1024];
-            int bytes;
+            int bytes=0;
 
-            // Keep listening to the InputStream while connected
             while (true) {
                 try {
-                    // InputStream으로부터 값을 받는 읽는 부분(값을 받는다)
+                    int bytesAvailable = mmInStream.available();
+                    if(bytesAvailable > 0) {
+                        byte[] packetBytes = new byte[bytesAvailable];
+                        // Read from the InputStream
+                        mmInStream.read(packetBytes);
 
-                    bytes = mmInStream.read(buffer);
+                        for(int i=0;i<bytesAvailable;i++) {
 
+                            byte b = packetBytes[i];
+                            if(b == '\n')
+                            {
+                                byte[] encodedBytes = new byte[bytes];
+                                System.arraycopy(buffer, 0, encodedBytes, 0,
+                                        encodedBytes.length);
+                                String outValue= new String(encodedBytes, "UTF-8");
+                                bytes = 0;
+                                Log.d(TAG, "Arduino -> Android " + outValue);
 
+                                mainObject.distanceValue(outValue);
+                            }
+                            else
+                            {
+                                buffer[bytes++] = b;
+                            }
+                        }
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
-                    connectionLost();
-                    break;
                 }
             }
+
         }
 
-        /**
-         * Write to the connected OutStream.
-         *
-         * @param buffer
-         *            The bytes to write
-         */
         public void write(byte[] buffer) {
             try {
                 // 값을 쓰는 부분(값을 보낸다)

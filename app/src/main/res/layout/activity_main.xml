@@ -7,12 +7,21 @@
     android:layout_height="match_parent">
 
 
+    <TextView
+        android:id="@+id/stateWindow"
+        android:layout_width="395dp"
+        android:layout_height="51dp"
+        android:layout_weight="1"
+        android:textAlignment="center"/>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/fragment_container"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:layout_above="@+id/linearLayout"
-                 android:layout_alignParentEnd="true"/>
+                 android:layout_alignParentEnd="true">
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"

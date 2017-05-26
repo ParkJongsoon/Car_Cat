@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
-
 
     private final int FRAGMENT1 = 1;
     private final int FRAGMENT2 = 2;
@@ -19,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Camera camera = null;
     public static boolean STATE = false;
+    TextView valWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 탭 버튼에 대한 리스너 연결
         bt_tab1.setOnClickListener(this);
         bt_tab2.setOnClickListener(this);
+
+        //arduino 거리 값에 따른 색상 변경 TextView
+        valWindow = (TextView) findViewById(R.id.stateWindow);
 
         // 임의로 액티비티 호출 시점에 어느 프레그먼트를 프레임레이아웃에 띄울 것인지를 정함
         callFragment(FRAGMENT1);
@@ -122,6 +125,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         STATE = false;
     }
 
+    protected  void  distanceValue(String distance)
+    {
+        float inputValue = Float.parseFloat(distance);
+
+
+        if(inputValue>30)
+        {
+            Log.d("inputValue","Safe");
+            valWindow.setBackgroundColor(051);
+        }
+        else if(inputValue<30&&inputValue>10)
+        {
+            Log.d("inputValue","Waring");
+            valWindow.setBackgroundColor(000);
+        }
+        else
+        {
+            Log.d("inputValue","OMG");
+            valWindow.setBackgroundColor(000);
+        }
+    }
 
     class FaceDetect implements Camera.FaceDetectionListener{
 
