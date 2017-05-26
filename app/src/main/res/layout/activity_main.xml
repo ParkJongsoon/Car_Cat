@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,22 +19,31 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/bt_tab1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="현재 위치" />
+            android:background="@drawable/buttoncustom"
+            android:text="현재 위치"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/bt_tab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="최근 검색" />
+            android:text="최근 검색"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/buttoncustom"/>
 
     </LinearLayout>
 
