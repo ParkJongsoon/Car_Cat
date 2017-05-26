@@ -59,24 +59,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void run()
         {
-            while(true)
-            {
-                Log.d("여기오니?", "여기 오는거지?");
-                float test = access.getDistanceValue();
+            Log.d("여기오니?", "여기 오는거지?");
+            float test = access.getDistanceValue();
 
-                if (test > 30.0)
-                {
-                    setValue.setBackgroundColor(Color.GREEN);
-                    Log.d("TAG", "RED");
-                } else if (test < 30.0 && test > 10.0)
-                {
-                    setValue.setBackgroundColor(YELLOW);
-                    Log.d("TAG", "YELLOW");
-                } else
-                {
-                    setValue.setBackgroundColor(Color.RED);
-                    Log.d("TAG", "RED");
-                }
+            if (test > 30.0)
+            {
+                setValue.setBackgroundColor(Color.GREEN);
+                Log.d("TAG", "RED");
+            } else if (test < 30.0 && test > 10.0)
+            {
+                setValue.setBackgroundColor(YELLOW);
+                Log.d("TAG", "YELLOW");
+            } else
+            {
+                setValue.setBackgroundColor(Color.RED);
+                Log.d("TAG", "RED");
             }
         }
     }
