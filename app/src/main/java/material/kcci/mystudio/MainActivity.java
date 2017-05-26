@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+
+    //블루투스
+
+
+
+    
     private final int FRAGMENT1 = 1;
     private final int FRAGMENT2 = 2;
 
